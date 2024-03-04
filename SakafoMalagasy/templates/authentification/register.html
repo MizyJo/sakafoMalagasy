@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}
+    Sakafo Malagasy - Inscription
+{% endblock %}
+{% block content %}
+    <br><br><br>
+    <div class="container">
+    <div class="row">
+    <div class="col-7">
+        
+    </div>
+    <div class="col-5"> 
+    <div class="card m-3">
+        <div class="card-body">
+           <h3 class="text-center">Inscrivez vous :</h3>
+
+            <br>
+            <form action="/auth/save_user" class="row" method="post">
+                {% csrf_token %}
+                <div class="col-6 mb-3">
+                    <input type="text" name="nom" id="nom" placeholder="Entrer votre nom" class="form-control">
+                </div>
+                <div class="col-6 mb-3">
+                    <input type="text" name="prenom" id="prenom" placeholder="Entrer votre prénom" class="form-control">
+                </div>
+                <div class="col-6 mb-3">
+                    <input type="text" name="pseudo" id="pseudo" placeholder="Entrer votre nom d'utilisateur" class="form-control">
+                </div>
+                <div class="col-6 mb-3">
+                    <input type="email" name="email" id="email" placeholder="Entrer votre Email" class="form-control">
+                </div>
+                <div class="col-6 mb-3">
+                    <input type="password" name="password" id="password" placeholder="Entrer votre mot de passe" class="form-control">
+                </div>
+                <div class="col-6 mb-3">
+                    <input type="password" name="confpass" id="confpass" placeholder="Retaper votre mot de passe" class="form-control">
+                </div>
+                <div class="col-6 mb-3">
+                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                </div>
+                <div class="col-6 mb-3">
+                    <div>
+                         <p>Vous avez déja un compte? <a href="/auth/login" class="hyperlink">Cliquez ici</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+{% endblock %}
