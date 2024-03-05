@@ -3,15 +3,22 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
+class Photo(models.Model):
+    fichier = models.ImageField(upload_to='image_recette')
+
+
 class Recette(models.Model):
     titre = models.CharField(max_length=100)
     description = models.TextField()
     date_creation = models.DateTimeField(auto_now_add=True)
     auteur = models.ForeignKey(User, on_delete=models.CASCADE)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE)
 
 
 class Ingredient(models.Model):
     nom = models.CharField(max_length=50)
+    recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
 
 
 class Etape(models.Model):
@@ -27,9 +34,7 @@ class Commentaire(models.Model):
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
 
 
-class Photo(models.Model):
-    fichier = models.ImageField(upload_to='photos/')
-    recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
+
 
 
 class Categorie(models.Model):

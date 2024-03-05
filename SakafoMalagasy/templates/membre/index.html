@@ -1,9 +1,34 @@
 {% extends "membre/baseMembre.html" %}
+{% load static %}
 {% block content  %}
-    <br><br><br>
+    <div class="container">
+        <br><br><br>
+        {% if recette %}
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                {% for donne in recette %}
+                <div class="card my-3" style="border: none;box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.5), 0 -5px 5px -5px rgba(0, 0, 0, 0.5);">
+            <div class="card-header bg-white" style="border:none">
+                <div><p><img src="" alt="" class="bg-dark me-2" height="70px" width="70px" style="border-radius:50%">{{ donne.auteur.username }}</p></div>
+            </div>
+            <div class="card-body">
+                <img src="{% static donne.photo.fichier %}" alt="" class="bg-dark img-fluid" style="max-height: 350px; width: 100%;border-radius:10px;">
+                <h3 class="text-center m-2">{{ donne.titre }}</h3>
+                <p>{{ donne.description }}</p>
+                
+                <div class="btn-group text-center">
+                    <button>Afficher les étapes</button><button>Afficher les ingrédients</button>
+                </div>
+            </div>
+        </div>
+                {% endfor %}
+            </div>
+            <div class="col-2">
+                
+            </div>
+        </div>
+    {% endif %}
+    </div>
     
-    <p>
-    Espace membre
-    <a href="/membre/logout" class="btn btn-danger btn-sm">Déconnecter</a>
-    </p>
 {% endblock %}
