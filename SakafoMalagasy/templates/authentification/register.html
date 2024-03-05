@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     Sakafo Malagasy - Inscription
 {% endblock %}
 {% block content %}
-    <br><br><br>
-    <div class="container">
+    <div class="container-fluid" style="background-image: url({% static 'assets/img/chefs-bg.jpg' %});background-size: cover;padding:100px">
+     <br><br><br>
     <div class="row">
-    <div class="col-7">
+    <div class="col-2">
         
     </div>
-    <div class="col-5"> 
-    <div class="card m-3">
+    <div class="col-8"> 
+    <div class="card m-3 animate__animated animate__fadeIn" style="border-radius: 10% 10% 0% 10% / 0% 19% 10% 19% ;border:none;opacity:0.9;" >
         <div class="card-body">
            <h3 class="text-center">Inscrivez vous :</h3>
 
@@ -36,7 +37,7 @@
                     <input type="password" name="confpass" id="confpass" placeholder="Retaper votre mot de passe" class="form-control">
                 </div>
                 <div class="col-6 mb-3">
-                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                    <button type="submit" class="btn btn-primary" style="padding:4px 15px">S'inscrire</button>
                 </div>
                 <div class="col-6 mb-3">
                     <div>
@@ -47,6 +48,7 @@
         </div>
     </div>
     </div>
+        <div class="col-2"></div>
     </div>
     </div>
     
