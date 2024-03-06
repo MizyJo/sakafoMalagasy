@@ -1,34 +1,59 @@
 {% extends "membre/baseMembre.html" %}
 {% load static %}
 {% block content  %}
-    <div class="container">
+    <div class="container-fluid" style="background: linear-gradient(255deg, rgba(0,0,0,1) 0%, rgba(46,45,45,1) 50%, rgba(235,137,0,1) 100%);">
         <br><br><br>
-        {% if recette %}
+        
         <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                {% for donne in recette %}
-                <div class="card my-3" style="border: none;box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.5), 0 -5px 5px -5px rgba(0, 0, 0, 0.5);">
-            <div class="card-header bg-white" style="border:none">
-                <div><p><img src="" alt="" class="bg-dark me-2" height="70px" width="70px" style="border-radius:50%">{{ donne.auteur.username }}</p></div>
-            </div>
-            <div class="card-body">
-                <img src="{% static donne.photo.fichier %}" alt="" class="bg-dark img-fluid" style="max-height: 350px; width: 100%;border-radius:10px;">
-                <h3 class="text-center m-2">{{ donne.titre }}</h3>
-                <p>{{ donne.description }}</p>
-                
-                <div class="btn-group text-center">
-                    <button>Afficher les étapes</button><button>Afficher les ingrédients</button>
+            <div class="col-3">
+                <div class="card position-fixed mt-3 border-0" style="border-radius: 10px" >
+                    <div class="card-body bg-dark">
+                        <form action="">
+                            <div class="form-group mb-3 d-flex">
+                                <input type="search" class="form-control mx-4 bg-dark-subtle" name="search" placeholder="Recherche.....">
+                                <button type="submit" class="btn btn-sm btn-outline-info">REchercher</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-                {% endfor %}
+        {% if recette %}
+            <div class="col-9">
+            <div class="row">
+                {% for donne in recette %}
+                <div class="col-6">
+                    <div class="card my-3 text-white" style="border: none;box-shadow: 1px 5px 3px -5px rgba(0, 0, 0, 0.5), -1px -5px 3px -5px rgba(0, 0, 0, 0.5);border-radius:20px;background: #333333">
+            <div class="card-header text-white" style="border:none;border-radius: 20px">
+                <div class="d-flex"><p style="width:85%"><img src="{{ donne.auteur.profile.image.url }}" alt="" class="bg-dark me-4" height="70px" width="70px" style="border-radius:50%">{{ donne.auteur.username }}</p><div>{{ donne.date_creation }}</div></div>
             </div>
-            <div class="col-2">
+            <div class="card-body">
+                <img src="{{ donne.photo.fichier.url }}" alt="" class="bg-dark"  style="max-height:400px;width:100%;margin-top:-15px;margin-right:-5px;">
+                <h3 class="m-2">{{ donne.titre }}</h3>
+                <p>{{ donne.description }}</p>
+                <div class="text-center">
+                     <div class="btn-group">
+                    <button class="btn btn-warning btn-sm ouvrirModalEtape" data-id={{ donne.id }}>Afficher les étapes</button><button  id="ouvrirModalIngredient" class="btn btn-dark btn-sm ouvrirModalIngredient" data-id={{ donne.id }}>Afficher les ingrédients</button>
+                </div>
+                </div>
+               
+            </div>
+        </div>
+                </div>
+                {% endfor %}
                 
             </div>
+            </div>
+            {% else %}
+            <div style="margin:200px 0">
+            <h3 class="text-white text-center">
+                Pas de recette disponible en ce momment
+            </h3>
+            </div>
+        {% endif %}
+        
+            </div>
         </div>
-    {% endif %}
+    
     </div>
     
 {% endblock %}

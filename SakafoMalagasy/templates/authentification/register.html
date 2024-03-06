@@ -16,7 +16,7 @@
            <h3 class="text-center">Inscrivez vous :</h3>
 
             <br>
-            <form action="/auth/save_user" class="row" method="post">
+            <form action="/auth/save_user" class="row" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="col-6 mb-3">
                     <input type="text" name="nom" id="nom" placeholder="Entrer votre nom" class="form-control">

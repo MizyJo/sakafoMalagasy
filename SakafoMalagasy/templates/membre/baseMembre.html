@@ -29,7 +29,7 @@
   <link href="{% static '' %}assets/css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="background: linear-gradient(255deg, rgba(0,0,0,1) 0%, rgba(46,45,45,1) 50%, rgba(235,137,0,1) 100%);">
 
 {% block header %}
     {% include 'membre/header.html' %}
@@ -37,9 +37,11 @@
   <main id="main">
     {% block content %}
 
-      {% endblock %}
+    {% endblock %}
 {% include 'message.html' %}
   </main>
+{% include 'membre/modal_files/ingredient.html' %}
+{% include 'membre/modal_files/etape.html' %}
 {% block footer %}
   {% include 'membre/footer.html' %}
 {% endblock %}
@@ -50,10 +52,64 @@
   <script src="{% static '' %}assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="{% static '' %}assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="{% static '' %}assets/vendor/php-email-form/validate.js"></script>
-
+<script src="{% static 'assets/js/jquery-3.7.1.min.js' %}"></script>
   <!-- Template Main JS File -->
   <script src="{% static '' %}assets/js/main.js"></script>
-
+<script>
+$(document).ready(function(){
+    // Fonction pour ouvrir le modal
+    $(".ouvrirModalEtape").click(function(){
+        var id = $(this).data('id')
+        $.ajax({
+            url: '/membre/get_etape/'+ id ,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data){
+                // Afficher les ingrédients dans le modal
+                var modalBody = $('#corpBodyEtape');
+                modalBody.empty();
+            data.forEach(function(etape) {
+                modalBody.append('<tr><td>' + etape.numero + '</td><td>' + etape.description + '</td></tr>');
+            });
+                // Ouvrir le modal
+                $('#modalEtape').modal('show');
+            },
+            error: function(xhr, status, error) {
+                // Gérer les erreurs si nécessaire
+                console.error(xhr.responseText);
+            }
+        });
+    });
+    $(".ouvrirModalIngredient").click(function(){
+        var id = $(this).data('id')
+        $.ajax({
+            url: '/membre/get_ingredient/'+ id ,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data){
+                // Afficher les ingrédients dans le modal
+                var modalBody = $('#corpBody');
+                modalBody.empty();
+            data.forEach(function(ingredient) {
+                modalBody.append('<tr><td>' + ingredient.nom + '</td></tr>');
+            });
+                // Ouvrir le modal
+                $('#modalIngredient').modal('show');
+            },
+            error: function(xhr, status, error) {
+                // Gérer les erreurs si nécessaire
+                console.error(xhr.responseText);
+            }
+        });
+    });
+    
+    
+    // Fonction pour fermer le modal
+    function fermerModal() {
+        $("#modalEtape").modal('hide');
+    }
+});
+</script>
 </body>
 
 </html>

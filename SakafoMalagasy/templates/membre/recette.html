@@ -1,0 +1,55 @@
+{% extends 'membre/baseMembre.html' %}
+{% block content %}
+    <div class="container-fluid" style="margin-bottom:200px">
+        <br><br><br><br>
+    <h3 class="text-center text-white">Liste de mes recettes</h3>
+        <br>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre du recette</th>
+                <th>Déscription du recette</th>
+                <th>Lien de l'image du recette</th>
+                <th>Ingrédiants du recette</th>
+                   <th>Etapes du recette</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            {% if recette %}
+            <tbody>
+            {% for donne in recette %}
+            <tr>
+                <td>{{ donne.id }}</td>
+                <td>{{ donne.titre }}</td>
+                <td>{{ donne.description }}</td>
+                <td>{{donne.photo.fichier.url}}</td>
+                <td>
+                    <ul>
+                        {% for ingredient in donne.ingredient_set.all %}
+                        <li>{{ ingredient.nom }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for etape in donne.etape_set.all %}
+                        <li>{{ etape.description }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td><div class="btn-group">
+                    <button class="btn btn-outline-dark"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-outline-warning"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </div></td>
+                
+            </tr>
+            {% endfor %}
+            </tbody>
+            {% endif %}
+        </table>
+    </div>
+    </div>
+{% endblock %}

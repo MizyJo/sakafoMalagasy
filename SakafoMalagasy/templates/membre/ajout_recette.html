@@ -2,40 +2,40 @@
 {% block content %}
 	<div class="container">
         <br><br><br>
-    <div class="card m-3" style="min-height:600px;border-radius:9% 10% 0% 10% / 0% 19% 19% 22% ">
+    <div class="card m-3 animate__animated animate__fadeIn border-0" style="min-height:600px;border-radius:9% 10% 0% 10% / 0% 19% 19% 22% ;background: linear-gradient(255deg, rgba(0,0,0,1) 0%, rgba(46,45,45,1) 50%, rgba(235,137,0,1) 100%);">
         <div class="card-body">
             <h3 class="text-center text-warning m-3 p-3">Ajouter votre recette</h3>
-            <form action="/membre/add_recette" class="row" id="recipeForm" method="post" enctype="multipart/form-data">
+            <form action="/membre/add_recette" class="row text-white" id="recipeForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="col-4">
                     <label for="">Titre de la recette :</label>
-                    <input type="text" class="form-control" name="titre">
+                    <input type="text" class="form-control border-warning text-warning bg-dark" name="titre">
                     <br>
                     <label for="">Déscription de la recette :</label>
-                    <input type="text" class="form-control"  name="description">
+                    <textarea type="text" class="form-control border-warning text-warning bg-dark" rows="3"  name="description"></textarea>
                     <br>
                     <label for="">Image de la nouriture :</label>
-                    <input type="file" name="image" class="form-control">
+                    <input type="file" name="image" class="form-control border-warning text-warning bg-dark">
                     <br>
                 </div>
                 <div class="col-4">
                     
   <!-- Autres champs de formulaire pour le titre, la description, etc. -->
                       <div id="stepsContainer">
-                          <label for="">Etape de la recette : </label><a type="button" id="addStep" class="hyperlink">Ajouter une autre étape</a>
+                          <label for="">Etape de la recette : </label> <a type="button" id="addStep" class="hyperlink">Ajouter une autre étape</a>
                           <div class="step d-flex mb-1">
-                          <input type="text" name="step[]" placeholder="Étape 1" class="form-control me-1">
-                          <button type="button" class="btn btn-danger removeStep" >.</button>
+                          <input type="text" name="step[]" placeholder="Étape 1" class="form-control border-dark text-dark bg-warning-subtle me-1">
+                          <button type="button" class="btn btn-danger removeStep" > <i class="bi bi-trash"></i></button>
                         </div>
                       </div>
 
                 </div>
                 <div class="col-4">
                     <div id="ingredientsContainer">
-                        <label for="">Ingrédiant de la recette : </label><a type="button" id="addIngredient" class="hyperlink">autre ingrédient</a>
+                        <label for="">Ingrédiant de la recette :</label> <a type="button" id="addIngredient" class="hyperlink">autre ingrédient</a>
                         <div class="ingredient d-flex mb-1">
-                            <input type="text" name="ingredient[]" placeholder="Ingrédient 1" class="form-control me-1">
-                            <button type="button" class="removeIngredient btn btn-danger">.</button></div>
+                            <input type="text" name="ingredient[]" placeholder="Ingrédient 1" class="form-control border-dark text-dark bg-warning-subtle me-1">
+                            <button type="button" class="removeIngredient btn btn-danger"> <i class="bi bi-trash"></i></button></div>
                     </div>
                 </div>
                 <div class="col-12 text-center">
@@ -59,8 +59,8 @@
     stepDiv.classList.add("mb-1");
     
     stepDiv.innerHTML = `
-      <input type="text" name="step[]" placeholder="Étape ${stepCount}" class="form-control me-1">
-      <button type="button" class="btn btn-danger removeStep ">.</button>
+      <input type="text" name="step[]" placeholder="Étape ${stepCount}" class="form-control border-dark text-dark bg-warning-subtle me-1">
+      <button type="button" class="btn btn-danger removeStep "> <i class="bi bi-trash"></i></button>
     `;
     container.appendChild(stepDiv);
   });
@@ -82,8 +82,8 @@
       
     
     ingredientDiv.innerHTML = `
-      <input type="text" name="ingredient[]" placeholder="Ingrédient ${ingredientCount}" class="form-control me-1">
-      <button type="button" class="removeIngredient btn btn-danger">.</button>
+      <input type="text" name="ingredient[]" placeholder="Ingrédient ${ingredientCount}" class="form-control border-dark text-dark bg-warning-subtle me-1">
+      <button type="button" class="removeIngredient btn btn-danger"> <i class="bi bi-trash"></i></button>
     `;
     container.appendChild(ingredientDiv);
   });

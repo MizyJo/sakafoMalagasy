@@ -15,7 +15,6 @@ def vue_login(request):
     return render(request, 'authentification/login.html')
 
 
-
 def tchek_login(request):
     if request.method == "POST":
         username = request.POST.get('pseudo')
