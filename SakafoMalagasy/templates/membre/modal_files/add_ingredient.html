@@ -1,0 +1,25 @@
+<div  style="z-index: 2000" class="modal fade" id="modalAddIngredient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title text-center" id="exampleModalLabel"><span class="text-warning">Sakafo</span> <span class="text-dark">Malagasy</span> : <p class="nomRecette"></p></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+          <h4 class="text-center">Ajouter un ingrédient</h4>
+          <form id="formAddIngredient">
+              {% csrf_token %}
+              <input type="hidden" id="id_recette_ingredient">
+              <input type="text" name="nom" class="form-control m-2">
+              <button type="submit" class="btn btn-primary">Ajouter</button>
+              
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

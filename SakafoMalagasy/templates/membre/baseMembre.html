@@ -42,6 +42,14 @@
   </main>
 {% include 'membre/modal_files/ingredient.html' %}
 {% include 'membre/modal_files/etape.html' %}
+{% include 'membre/modal_files/edit_recette.html' %}
+{% include 'membre/modal_files/delete_recette.html' %}
+{% include 'membre/modal_files/add_etape.html' %}
+{% include 'membre/modal_files/add_ingredient.html' %}
+
+
+
+
 {% block footer %}
   {% include 'membre/footer.html' %}
 {% endblock %}
@@ -55,8 +63,135 @@
 <script src="{% static 'assets/js/jquery-3.7.1.min.js' %}"></script>
   <!-- Template Main JS File -->
   <script src="{% static '' %}assets/js/main.js"></script>
+
 <script>
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Vérifier si le nom du cookie correspond à notre jeton CSRF
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 $(document).ready(function(){
+    $('.btnAddEtape').click(function(){
+        var id = $(this).data('id')
+        $.ajax({
+            url:'/membre/get_recette/'+id,
+            type: 'GET',
+            datatype:'json',
+            success: function(data){
+                $('#id_recette').val(data.id)
+                $('#modalEditRecette').modal('hide')
+                $('#modalAddEtape').modal('show')
+            }
+        })
+    })
+
+    $('.btnAddIngredient').click(function(){
+        var id = $(this).data('id')
+        $.ajax({
+            url:'/membre/get_recette/'+id,
+            type: 'GET',
+            datatype:'json',
+            success: function(data){
+                $('#id_recette_ingredient').val(data.id)
+                $('#modalEditRecette').modal('hide')
+                $('#modalAddIngredient').modal('show')
+            }
+        })
+    })
+
+    $('#formAjoutEtape').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#id_recette').val()
+         $.ajax({
+        url: "/membre/add_etape",
+        type: "POST",
+             data: $(this).serialize() + "&id_recette=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+            alert('Insertion réussi')
+                $('#modalAddEtape').modal('hide')
+                $('#modalEditRecette').modal('show')
+            }
+        })
+    })
+
+    $('#formAddIngredient').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#id_recette_ingredient').val()
+         $.ajax({
+        url: "/membre/add_ingredient",
+        type: "POST",
+             data: $(this).serialize() + "&id_recette=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+            alert('Insertion réussi')
+                $('#modalAddIngredient').modal('hide')
+                $('#modalEditRecette').modal('show')
+            }
+        })
+    })
+
+
+
+    $('.btnDeleteRecette').click(function (){
+        $('#modalDeleteRecette').modal('show')
+    })
+    
+  
+    
+   
+    
+    $('.editRecette').click(function(){
+        var id = $(this).data('id')
+        $.ajax({
+        url: '/membre/get_recette/' + id,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Remplir le formulaire avec les données récupérées
+            $('#editTitre').val(data.titre);
+            $('#editDescription').val(data.description);
+            $('#idRecette').val(data.id);
+            
+            // Remplir les étapes
+             var modalBody = $('#tbodyEtape');
+                modalBody.empty();
+            data.etapes.forEach(function(etape) {
+                modalBody.append('<tr><td>' + etape.id + '</td><td>' + etape.numero + '</td><td>' + etape.description + '</td><td>'+'<div class=\'btn-group\'><button class="btn btn-warning"><i  class="bi bi-pencil"></i></button><button class="btn btn-danger"><i class="bi bi-trash"></i></button></div>'+'</td></tr>');
+            });
+            
+            var modalBod = $('#tbodyIngredient');
+                modalBod.empty();
+            data.ingredients.forEach(function(etape) {
+                modalBod.append('<tr><td>' + etape.id + '</td><td>' + etape.nom + '</td><td>'+'<div class=\'btn-group\'><button type="button" class="btn btn-warning"><i class="bi bi-pencil"></i></button><button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button></div>'+'</td></tr>');
+            });
+            
+            boutonEtape = $('.btnAddEtape')
+            boutonIngredient = $('.btnAddIngredient')
+            boutonEtape.attr('data-id', data.id)
+            boutonIngredient.attr('data-id', data.id)
+            $('#modalEditRecette').modal('show')
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+        
+    })
     // Fonction pour ouvrir le modal
     $(".ouvrirModalEtape").click(function(){
         var id = $(this).data('id')
@@ -66,6 +201,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data){
                 // Afficher les ingrédients dans le modal
+               // $('.nomRecette').val(data.nom)
                 var modalBody = $('#corpBodyEtape');
                 modalBody.empty();
             data.forEach(function(etape) {
@@ -88,6 +224,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data){
                 // Afficher les ingrédients dans le modal
+               // $('.nomRecette').val(r.nom)
                 var modalBody = $('#corpBody');
                 modalBody.empty();
             data.forEach(function(ingredient) {
@@ -102,7 +239,17 @@ $(document).ready(function(){
             }
         });
     });
-    
+    $('#btnSubmitRecette').click(function(){
+        var id = $(this).data('id')
+        $.ajax({
+            url:'/membre/edit_recette/'+ id,
+            method : 'POST',
+            datatype: 'json',
+            success : function(data){
+                
+            }
+            })
+    })
     
     // Fonction pour fermer le modal
     function fermerModal() {

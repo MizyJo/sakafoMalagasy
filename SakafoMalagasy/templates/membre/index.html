@@ -5,23 +5,23 @@
         <br><br><br>
         
         <div class="row">
-            <div class="col-3">
-                <div class="card position-fixed mt-3 border-0" style="border-radius: 10px" >
-                    <div class="card-body bg-dark">
+            <div class="col-sm-12 col-md-3">
+                <div class="card  mt-3 border-0 bg-dark" style="border-radius: 10px" >
+                    <div class="card-body bg-dark" style="border-radius: 10px" >
                         <form action="">
                             <div class="form-group mb-3 d-flex">
-                                <input type="search" class="form-control mx-4 bg-dark-subtle" name="search" placeholder="Recherche.....">
-                                <button type="submit" class="btn btn-sm btn-outline-info">REchercher</button>
+                                <input type="search" class="form-control mx-1 bg-dark-subtle" name="search" placeholder="Recherche.....">
+                                <button type="submit" class="btn btn-sm btn-outline-info">Rechercher</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         {% if recette %}
-            <div class="col-9">
+            <div class="col-sm-12 col-md-9 ">
             <div class="row">
                 {% for donne in recette %}
-                <div class="col-6">
+                <div class="col-sm-12 col-md-6">
                     <div class="card my-3 text-white" style="border: none;box-shadow: 1px 5px 3px -5px rgba(0, 0, 0, 0.5), -1px -5px 3px -5px rgba(0, 0, 0, 0.5);border-radius:20px;background: #333333">
             <div class="card-header text-white" style="border:none;border-radius: 20px">
                 <div class="d-flex"><p style="width:85%"><img src="{{ donne.auteur.profile.image.url }}" alt="" class="bg-dark me-4" height="70px" width="70px" style="border-radius:50%">{{ donne.auteur.username }}</p><div>{{ donne.date_creation }}</div></div>

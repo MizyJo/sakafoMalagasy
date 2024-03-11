@@ -1,6 +1,6 @@
 from django.contrib.auth import logout
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from membre.models import Recette, Photo, Etape, Ingredient
 
@@ -98,7 +98,13 @@ def recette(request):
 def get_etape(request, recette_id):
     if request.user.is_authenticated:
         if request.method == "GET":
-            etape = Etape.objects.filter(recette_id = recette_id).values('numero','description')
+            etape = Etape.objects.filter(recette_id=recette_id).values('numero', 'description')
+            recette = Recette.objects.get(pk=recette_id)
+            r = {
+                'nom': recette.titre,
+                'description': recette.description,
+                'etape': list(etape)
+            }
             return JsonResponse(list(etape), safe=False)
         else:
             return redirect('/membre/')
@@ -106,13 +112,76 @@ def get_etape(request, recette_id):
         return redirect('/')
 
 
-def get_ingredient(request, recette_id ):
+def get_ingredient(request, recette_id):
     if request.user.is_authenticated:
         if request.method == "GET":
             ingredient = Ingredient.objects.filter(recette_id=recette_id).values('nom')
+            recette = get_object_or_404(Recette, id=recette_id)
+            data = {
+                'nom': recette.titre,
+                'description': recette.description,
+                'ingredient': list(ingredient)
+            }
             return JsonResponse(list(ingredient), safe=False)
         else:
             return redirect('/membre/')
     else:
         return redirect('/')
 
+
+def get_recette(request, recette_id):
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            recette = Recette.objects.get(pk=recette_id)
+            ingredients = list(Ingredient.objects.filter(recette_id=recette_id).values('id', 'nom'))
+            etapes = list(Etape.objects.filter(recette_id=recette_id).values('id', 'numero', 'description'))
+
+            data = {
+                'id': recette.id,
+                'titre': recette.titre,
+                'description': recette.description,
+                'etapes': etapes,
+                'ingredients': ingredients
+            }
+            return JsonResponse(data)
+        return redirect('/membre/recette')
+    return redirect('/')
+
+
+def add_etape(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            id_recette = request.POST.get('id_recette')
+            recette = get_object_or_404(Recette, pk=id_recette)
+            numero = request.POST.get('numero')
+            description = request.POST.get('description')
+            if numero != "" and description != "":
+                etape = Etape.objects.create(numero=numero, description=description, recette=recette)
+                etape.save()
+                return JsonResponse({'success': True})
+            else:
+                # Si la méthode de la requête n'est pas POST, renvoyer une erreur
+                return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+        else:
+            return redirect('/membre/recette')
+    else:
+        return redirect('/membre')
+
+
+def add_ingredient(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            id_recette = request.POST.get('id_recette')
+            recette = get_object_or_404(Recette, pk=id_recette)
+            nom = request.POST.get('nom')
+            if nom != "":
+                ingredient = Ingredient.objects.create(nom=nom, recette=recette)
+                ingredient.save()
+                return JsonResponse({'success': True})
+            else:
+                # Si la méthode de la requête n'est pas POST, renvoyer une erreur
+                return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+        else:
+            return redirect('/membre/recette')
+    else:
+        return redirect('/membre')

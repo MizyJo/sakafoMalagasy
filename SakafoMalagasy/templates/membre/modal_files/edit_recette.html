@@ -1,0 +1,88 @@
+<div  class="modal fade" id="modalEditRecette" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title text-center" id="exampleModalLabel"><span class="text-warning">Sakafo</span> <span class="text-dark">Malagasy</span> : <p class="nomRecette"></p></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+          <h4 class="text-center">Modification du recette</h4>
+       <form method="post" action="" id="formEditRecette">
+    {% csrf_token %}
+           <div class="row">
+    <div class="mb-3 col-sm-12 col-md-6 col--lg-6">
+        <input type="hidden" id="idRecette">
+        <label for="titre" class="form-label">Titre</label>
+        <input type="text" class="form-control" id="editTitre" name="titre" value="">
+    </div>
+    <div class="mb-3 col-sm-12 col-md-6 col-lg-6">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="editDescription" name="description" rows="3"></textarea>
+    </div>
+
+    <!-- Champs pour les étapes -->
+    <div class="mb-3  col-sm-12 col-md-6 col-lg-6">
+        <label for="etapes" class="form-label">Étapes</label>
+        <table class="table">
+            <thead>
+            <tr>
+                <th><button type="button" class="btn btn-primary btnAddEtape"><i class="bi bi-plus"></i></button></th>
+                <th>Numero</th>
+                <th>désccription</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="tbodyEtape">
+            <tr>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+                <td>
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                    <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Champs pour les ingrédients -->
+    <div class="mb-3 col-sm-12 col-md-6 col-lg-6">
+        <label for="ingredients" class="form-label">Ingrédients</label>
+        <table class="table">
+            <thead>
+            <tr>
+                <th><button type="button" class="btn btn-primary btnAddIngredient"><i class="bi bi-plus"></i></button></th>
+                <th>Nom</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="tbodyIngredient">
+            <tr>
+                <td>test</td>
+                <td>test</td>
+                <td>
+                    <div class="btn-group">
+                    <button class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+               </div>
+    <!-- Bouton de soumission du formulaire -->
+    <button type="submit" class="btn btn-primary" id="btnSubmitRecette">Modifier</button>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
