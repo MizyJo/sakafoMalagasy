@@ -1,38 +1,46 @@
 {% extends "membre/baseMembre.html" %}
 {% load static %}
 {% block content  %}
-    <div class="container-fluid" style="background: linear-gradient(255deg, rgba(0,0,0,1) 0%, rgba(46,45,45,1) 50%, rgba(235,137,0,1) 100%);">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/styles.css' %}">
+
+    <div class=" container-fluid" style="background: linear-gradient(255deg, rgba(0,0,0,1) 0%, rgba(46,45,45,1) 50%, rgba(235,137,0,1) 100%); width: 88%;">
         <br><br><br>
         
         <div class="row">
-            <div class="col-sm-12 col-md-3">
-                <div class="card  mt-3 border-0 bg-dark" style="border-radius: 10px" >
-                    <div class="card-body bg-dark" style="border-radius: 10px" >
+            <div class="col-12">
+                <div class="card position-flex mt-3 border-0" style="border-radius: 10px" >
+                    <div class="card-body bg-dark">
                         <form action="">
-                            <div class="form-group mb-3 d-flex">
-                                <input type="search" class="form-control mx-1 bg-dark-subtle" name="search" placeholder="Recherche.....">
+                            <div class="form-group mb-3 d-flex container-fluid">
+                                <input type="search" class="form-control mx-4 bg-dark-subtle" name="search" placeholder="Recherche.....">
                                 <button type="submit" class="btn btn-sm btn-outline-info">Rechercher</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
         {% if recette %}
-            <div class="col-sm-12 col-md-9 ">
+        <div class="row">
+            <div class="col-12 mb-3 justify-content-center align-items-center">
             <div class="row">
                 {% for donne in recette %}
-                <div class="col-sm-12 col-md-6">
-                    <div class="card my-3 text-white" style="border: none;box-shadow: 1px 5px 3px -5px rgba(0, 0, 0, 0.5), -1px -5px 3px -5px rgba(0, 0, 0, 0.5);border-radius:20px;background: #333333">
+                <div class="class=col-6 col-md-4 mb-3 smaller-card justify-content-center align-items-center">
+                    <div class="card mt-5 text-white smaller-card" style="border: none;box-shadow: 1px 5px 3px -5px rgba(0, 0, 0, 0.5), -1px -5px 3px -5px rgba(0, 0, 0, 0.5);border-radius:20px;background: #333333">
             <div class="card-header text-white" style="border:none;border-radius: 20px">
-                <div class="d-flex"><p style="width:85%"><img src="{{ donne.auteur.profile.image.url }}" alt="" class="bg-dark me-4" height="70px" width="70px" style="border-radius:50%">{{ donne.auteur.username }}</p><div>{{ donne.date_creation }}</div></div>
+                <div class="d-flex"><p style="width:85%"><img src="{{ donne.auteur.profile.image.url }}" alt="" class="bg-dark me-4 justify-content-center align-items-center" height="50px" width="50px" style="border-radius:50%">{{ donne.auteur.username }}</p><div>{{ donne.date_creation }}</div></div>
             </div>
             <div class="card-body">
-                <img src="{{ donne.photo.fichier.url }}" alt="" class="bg-dark"  style="max-height:400px;width:100%;margin-top:-15px;margin-right:-5px;">
+                <img src="{{ donne.photo.fichier.url }}" alt="" class="bg-dark"  style="height:210px;width:100%;margin-top:-15px;margin-right:-5px;text-align: center; padding: 10px;">
                 <h3 class="m-2">{{ donne.titre }}</h3>
                 <p>{{ donne.description }}</p>
                 <div class="text-center">
                      <div class="btn-group">
                     <button class="btn btn-warning btn-sm ouvrirModalEtape" data-id={{ donne.id }}>Afficher les étapes</button><button  id="ouvrirModalIngredient" class="btn btn-dark btn-sm ouvrirModalIngredient" data-id={{ donne.id }}>Afficher les ingrédients</button>
+                    <form action="{% url 'add_favoris' recette_id=donne.id %}" class="row text-white" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger btn-sm ouvrirRecetteFavoris" type="submit">Ajouter dans vos favoris</button>
+                    </form>
                 </div>
                 </div>
                

@@ -1,6 +1,6 @@
 
 from django.urls import path
-from membre.views import index, logouts, ajout_recette, add_recette, profile, add_profil, recette, get_etape, \
+from membre.views import index, logouts, ajout_recette, add_recette, profile, add_profil, recette, add_favoris, get_etape, remove_favoris, \
     get_ingredient, get_recette, add_etape, add_ingredient
 
 urlpatterns = [
@@ -15,7 +15,10 @@ urlpatterns = [
     path('get_etape/<int:recette_id>', get_etape, name="get_etape"),
     path('get_ingredient/<int:recette_id>', get_ingredient, name="get_ingredient"),
     path('get_recette/<int:recette_id>', get_recette, name="get_recette"),
+    path('add_favoris/<int:recette_id>', add_favoris, name="add_favoris"),
+    path('add_favoris/', add_favoris, name='add_favoris_all'),
     path('add_etape', add_etape, name="add_etape"),
+    path('remove_favoris/<int:recette_id>/', remove_favoris, name='remove_favoris'),
     path('add_ingredient', add_ingredient, name="add_ingredient"),
 
 ]

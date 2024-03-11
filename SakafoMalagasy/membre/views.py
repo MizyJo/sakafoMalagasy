@@ -1,8 +1,9 @@
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 
-from membre.models import Recette, Photo, Etape, Ingredient
+from membre.models import Recette, Photo, Etape, Ingredient,  Favoris
 
 
 # Create your views here.
@@ -185,3 +186,26 @@ def add_ingredient(request):
             return redirect('/membre/recette')
     else:
         return redirect('/membre')
+    
+def add_favoris(request, recette_id=None):
+    active_page = "add_favoris"
+    if request.user.is_authenticated:
+        if request.method == 'POST' and recette_id is not None:
+            recette = get_object_or_404(Recette, pk=recette_id)
+            favoris, created = Favoris.objects.get_or_create(utilisateur=request.user)
+            favoris.recette.add(recette)
+            return redirect(reverse('add_favoris_all'))
+        else:
+            favoris = Favoris.objects.filter(utilisateur=request.user)
+            favoris_utilisateur = Favoris.objects.filter(utilisateur=request.user)
+            return render(request, 'membre/add_favoris.html', {'active_page': active_page, 'favoris': favoris, 'favoris_utilisateur': favoris_utilisateur})
+    else:
+        return redirect('/')
+
+
+
+def remove_favoris(request, recette_id):
+    if request.method == 'POST':
+        favoris = get_object_or_404(Favoris, utilisateur=request.user)
+        favoris.recette.remove(recette_id)
+        return redirect('add_favoris_all')  # Rediriger vers la page des favoris après la suppression

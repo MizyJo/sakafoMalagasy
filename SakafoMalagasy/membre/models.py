@@ -44,8 +44,12 @@ class Categorie(models.Model):
 
 
 class Favoris(models.Model):
-    utilisateur = models.ForeignKey(User, on_delete=models.CASCADE)
-    recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
+    utilisateur = models.OneToOneField(User, on_delete=models.CASCADE)
+    recette = models.ManyToManyField(Recette)
+
+    #pour afficher dans l'administration
+    def __str__(self):
+        return self.utilisateur.username
 
 
 class Profile(models.Model):
