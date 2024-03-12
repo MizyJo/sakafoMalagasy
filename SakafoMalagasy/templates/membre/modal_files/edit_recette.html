@@ -13,16 +13,17 @@
     <div class="mb-3 col-sm-12 col-md-6 col--lg-6">
         <input type="hidden" id="idRecette">
         <label for="titre" class="form-label">Titre</label>
-        <input type="text" class="form-control" id="editTitre" name="titre" value="">
+        <input type="text" class="form-control" id="editTitre" name="titre" value="" required>
     </div>
     <div class="mb-3 col-sm-12 col-md-6 col-lg-6">
         <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="editDescription" name="description" rows="3"></textarea>
+        <textarea class="form-control" id="editDescription" name="description" rows="3" required></textarea>
     </div>
 
     <!-- Champs pour les étapes -->
     <div class="mb-3  col-sm-12 col-md-6 col-lg-6">
         <label for="etapes" class="form-label">Étapes</label>
+        <div class="table-responsive">
         <table class="table">
             <thead>
             <tr>
@@ -46,11 +47,13 @@
             </tr>
             </tbody>
         </table>
+            </div>
     </div>
 
     <!-- Champs pour les ingrédients -->
     <div class="mb-3 col-sm-12 col-md-6 col-lg-6">
         <label for="ingredients" class="form-label">Ingrédients</label>
+        <div class="table-responsive">
         <table class="table">
             <thead>
             <tr>
@@ -72,6 +75,7 @@
             </tr>
             </tbody>
         </table>
+            </div>
     </div>
                </div>
     <!-- Bouton de soumission du formulaire -->

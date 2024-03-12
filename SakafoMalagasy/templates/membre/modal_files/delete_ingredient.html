@@ -6,8 +6,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
-        <p>Etes vous sur de supprimer cette ingredient?</p>
-          <button class="btn btn-danger">Confirmer</button>
+        <form action="" id="formDeleteIngredient">
+              <input type="hidden" id="id_delete_ingredient">
+               <p>Etes vous sur de vouloir supprimer cette Ingrédient?</p>
+          <button type="submit" class="btn btn-danger btn-sm m-3">Confirmer</button>
+          </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

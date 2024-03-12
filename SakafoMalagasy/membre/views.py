@@ -186,7 +186,8 @@ def add_ingredient(request):
             return redirect('/membre/recette')
     else:
         return redirect('/membre')
-    
+
+
 def add_favoris(request, recette_id=None):
     active_page = "add_favoris"
     if request.user.is_authenticated:
@@ -209,3 +210,143 @@ def remove_favoris(request, recette_id):
         favoris = get_object_or_404(Favoris, utilisateur=request.user)
         favoris.recette.remove(recette_id)
         return redirect('add_favoris_all')  # Rediriger vers la page des favoris après la suppression
+
+
+
+def get_etape_by_id(request, etape_id):
+    etape = Etape.objects.get(pk=etape_id)
+    if etape is not None:
+        data = {
+            'id': etape.id,
+            'numero': etape.numero,
+            'description': etape.description
+        }
+        return JsonResponse(data)
+    else:
+        # Si la méthode de la requête n'est pas POST, renvoyer une erreur
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+def get_ingredient_by_id(request, ingredient_id):
+    ingredient = Ingredient.objects.get(pk=ingredient_id)
+    if ingredient is not None:
+        data = {
+            'id': ingredient.id,
+            'nom': ingredient.nom
+        }
+        return JsonResponse(data)
+    else:
+        # Si la méthode de la requête n'est pas POST, renvoyer une erreur
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+def edit_etape(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            id = request.POST.get('id_etape')
+            numero = request.POST.get('numero')
+            description = request.POST.get('description')
+            if id != "" and numero != "" and description != "":
+                etape = Etape.objects.get(pk=id)
+                if etape is not None:
+                    etape.numero = numero
+                    etape.description = description
+                    etape.save()
+                    return JsonResponse({'Success': True})
+                else:
+                    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+            else:
+                return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+        else:
+            return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+    else:
+        return redirect('/')
+
+
+def edit_ingredient(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            id = request.POST.get('id_ingredient')
+            nom = request.POST.get('nom')
+            if id != "" and nom != "":
+                etape = Ingredient.objects.get(pk=id)
+                if etape is not None:
+                    etape.nom = nom
+                    etape.save()
+                    return JsonResponse({'Success': True})
+                else:
+                    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+            else:
+                return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+        else:
+            return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+    else:
+        return redirect('/')
+
+
+
+def delete_recette(request):
+    if request.method == "POST":
+        id = request.POST.get('id_recette')
+        recette = get_object_or_404(Recette, pk=id)
+        recette.delete()
+        return JsonResponse({'Success': True})
+    else:
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+def delete_etape(request):
+    if request.method == "POST":
+        id = request.POST.get('id_etape')
+        etape = get_object_or_404(Etape,pk=id)
+        etape.delete()
+        return JsonResponse({'Success': True})
+    else:
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+def delete_ingredient(request):
+    if request.method == "POST":
+        id = request.POST.get('id_ingredient')
+        ingredient = get_object_or_404(Ingredient, pk=id)
+        ingredient.delete()
+        return JsonResponse({'Success': True})
+    else:
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+def edit_recette(request):
+    if request.method == "POST":
+        id = request.POST.get('id_recette')
+        titre = request.POST.get('titre')
+        description = request.POST.get('description')
+        recette = get_object_or_404(Recette, pk=id)
+        recette.titre = titre
+        recette.description = description
+        recette.save()
+        return JsonResponse({'Success': True})
+    else:
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+def affiche_recette(request, recette_id):
+    if request.method == "GET":
+        recette = get_object_or_404(Recette, pk=recette_id)
+        photo = recette.photo.fichier.url
+        profil = recette.auteur.profile.image.url
+        data = {
+            'id': recette.id,
+            'titre': recette.titre,
+            'description': recette.description,
+            'photo': photo,
+            'profil': profil,
+            'date': recette.date_creation
+        }
+
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+
+

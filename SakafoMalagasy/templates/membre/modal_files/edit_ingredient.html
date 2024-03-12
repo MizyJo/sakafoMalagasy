@@ -1,4 +1,4 @@
-<div  style="z-index: 2000" class="modal fade" id="modalEditIngredient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div  class="modal fade" id="modalEditIngredient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,12 +7,17 @@
       </div>
       <div class="modal-body">
           <h4 class="text-center">Modifier l'ingrédient</h4>
-       
+          <form action="" id="formEditIngredient">
+              <input type="hidden" id="id_ingredient">
+              <input type="text" id="nom_ingredient" name="nom" class="form-control" required>
+              <button type="submit" class="btn btn-primary m-2">Modifier l'ingrédient</button>
+          </form>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
       </div>
     </div>
   </div>
 </div>
+</div>/
 
 

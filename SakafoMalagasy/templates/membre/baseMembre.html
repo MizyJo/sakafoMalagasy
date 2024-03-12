@@ -46,6 +46,12 @@
 {% include 'membre/modal_files/delete_recette.html' %}
 {% include 'membre/modal_files/add_etape.html' %}
 {% include 'membre/modal_files/add_ingredient.html' %}
+{% include 'membre/modal_files/edit_etape.html' %}
+{% include 'membre/modal_files/edit_ingredient.html' %}
+{% include 'membre/modal_files/delete_etape.html' %}
+{% include 'membre/modal_files/delete_ingredient.html' %}
+{% include 'membre/modal_files/affiche_recette.html' %}
+
 
 
 
@@ -94,6 +100,89 @@ $(document).ready(function(){
             }
         })
     })
+    $(document).on('click', '.btnDeleteEtape', function(){
+        var id = $(this).data('id')
+        $('#id_delete_etape').val(id)
+      $('#modalEditRecette').modal('hide')
+        $('#modalDeleteEtape').modal('show')
+    })
+    $(document).on('click', '.btnDeleteIngredient', function(){
+         var id = $(this).data('id')
+         $('#id_delete_ingredient').val(id)
+      $('#modalEditRecette').modal('hide')
+        $('#modalDeleteIngredient').modal('show')
+    })
+    $(document).on('click', '.boutonEditEtape', function(){
+       var id = $(this).data('id')
+       $.ajax({
+           url:'/membre/get_etape_by_id/'+id,
+           type:'GET',
+           datatype:'json',
+           success: function(data){
+               $('#id_etape').val(data.id)
+               $('#numero_etape').val(data.numero)
+               $('#description_etape').val(data.description)
+               $('#modalEditRecette').modal('hide')
+               $('#modalEditEtape').modal('show')
+           },
+           error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+       })
+    })
+    $(document).on('click', '.boutonEditIngredient', function(){
+       var id = $(this).data('id')
+       $.ajax({
+           url:'/membre/get_ingredient_by_id/'+id,
+           type:'GET',
+           datatype:'json',
+           success: function(data){
+               $('#id_ingredient').val(data.id)
+               $('#nom_ingredient').val(data.nom)
+               $('#modalEditRecette').modal('hide')
+               $('#modalEditIngredient').modal('show')
+           },
+           error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+       })
+    })
+    $('#formEditEtape').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#id_etape').val()
+         $.ajax({
+        url: "/membre/edit_etape",
+        type: "POST",
+             data: $(this).serialize() + "&id_etape=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+             $('#modalEditEtape').modal('hide')
+            alert('Modification réussi')
+                location.reload();
+                $('#modalEditRecette').modal('show')
+            }
+        })
+    })
+    $('#formEditIngredient').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#id_ingredient').val()
+         $.ajax({
+        url: "/membre/edit_ingredient",
+        type: "POST",
+             data: $(this).serialize() + "&id_ingredient=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+                $('#modalEditIngredient').modal('hide')
+                alert('Modification réussi')
+                  location.reload();
+                $('#modalEditRecette').modal('show')
+            }
+        })
+    })
 
     $('.btnAddIngredient').click(function(){
         var id = $(this).data('id')
@@ -120,8 +209,8 @@ $(document).ready(function(){
         headers: {'X-CSRFToken': csrftoken},
         // Ajouter l'identifiant de la donnée à la requête
             success: function(data){
-            alert('Insertion réussi')
                 $('#modalAddEtape').modal('hide')
+                alert('Insertion réussi')
                 $('#modalEditRecette').modal('show')
             }
         })
@@ -144,14 +233,87 @@ $(document).ready(function(){
             }
         })
     })
+    $('#formDeleteEtape').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#id_delete_etape').val()
+         $.ajax({
+        url: "/membre/delete_etape",
+        type: "POST",
+             data: $(this).serialize() + "&id_etape=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+            alert('Supression réussi')
+                $('#modalDeleteEtape').modal('hide')
+                                  location.reload();
+                $('#modalEditRecette').modal('show')
+            }
+        })
+    })
+    $('#formDeleteIngredient').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#id_delete_ingredient').val()
+         $.ajax({
+        url: "/membre/delete_ingredient",
+        type: "POST",
+             data: $(this).serialize() + "&id_ingredient=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+            alert('Supression réussi')
+                $('#modalDeleteIngredient').modal('hide')
+                                  location.reload();
+                $('#modalEditRecette').modal('show')
+            }
+        })
+    })
+    $('#formDeleteRecette').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#id_delete_recette').val()
+         $.ajax({
+        url: "/membre/delete_recette",
+        type: "POST",
+             data: $(this).serialize() + "&id_recette=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+            alert('Supression réussi')
+                $('#modalDeleteRecette').modal('hide')
+                                  location.reload();
+            }
+        })
+    })
 
 
 
     $('.btnDeleteRecette').click(function (){
+         var id = $(this).data('id')
+        $('#id_delete_recette').val(id)
         $('#modalDeleteRecette').modal('show')
     })
     
-  
+   /* $('.boutonEditEtape').click(function(){
+      var id = $(this).data('id')
+       $.ajax({
+           url:'/membre/get_etape_by_id/'+id,
+           type:'GET',
+           datatype:'json',
+           success: function(data){
+               $('#id_etape').val(data.id)
+               $('#numero_etape').val(data.numero)
+               $('#description_etape').val(data.description)
+               $('#modalEditEtape').modal('show')
+           },
+           error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+       })
+       
+       alert("coucou")
+   }) */
     
    
     
@@ -171,13 +333,13 @@ $(document).ready(function(){
              var modalBody = $('#tbodyEtape');
                 modalBody.empty();
             data.etapes.forEach(function(etape) {
-                modalBody.append('<tr><td>' + etape.id + '</td><td>' + etape.numero + '</td><td>' + etape.description + '</td><td>'+'<div class=\'btn-group\'><button class="btn btn-warning"><i  class="bi bi-pencil"></i></button><button class="btn btn-danger"><i class="bi bi-trash"></i></button></div>'+'</td></tr>');
+                modalBody.append('<tr><td>' + etape.id + '</td><td>' + etape.numero + '</td><td>' + etape.description + '</td><td>'+'<div class=\'btn-group\'><button type="button" data-id="'+ etape.id + '" class="btn btn-warning boutonEditEtape"><i  class="bi bi-pencil"></i></button><button data-id="'+ etape.id + '" type="button" class="btn btn-danger btnDeleteEtape"><i class="bi bi-trash"></i></button></div>'+'</td></tr>');
             });
-            
+
             var modalBod = $('#tbodyIngredient');
                 modalBod.empty();
             data.ingredients.forEach(function(etape) {
-                modalBod.append('<tr><td>' + etape.id + '</td><td>' + etape.nom + '</td><td>'+'<div class=\'btn-group\'><button type="button" class="btn btn-warning"><i class="bi bi-pencil"></i></button><button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button></div>'+'</td></tr>');
+                modalBod.append('<tr><td>' + etape.id + '</td><td>' + etape.nom + '</td><td>'+'<div class=\'btn-group\'><button data-id="'+ etape.id + '" type="button" class="btn btn-warning boutonEditIngredient"><i class="bi bi-pencil"></i></button><button data-id="'+ etape.id + '" type="button" class="btn btn-danger btnDeleteIngredient"><i class="bi bi-trash"></i></button></div>'+'</td></tr>');
             });
             
             boutonEtape = $('.btnAddEtape')
@@ -250,11 +412,50 @@ $(document).ready(function(){
             }
             })
     })
-    
+    $('#formEditRecette').submit(function(event){
+        event.preventDefault();
+        var csrftoken = getCookie('csrftoken');
+        var id = $('#idRecette').val()
+         $.ajax({
+        url: "/membre/edit_recette",
+        type: "POST",
+             data: $(this).serialize() + "&id_recette=" + id,
+        headers: {'X-CSRFToken': csrftoken},
+        // Ajouter l'identifiant de la donnée à la requête
+            success: function(data){
+                $('#modalEditRecette').modal('hide')
+                alert('Modification réussi')
+                  location.reload();
+            }
+        })
+    })
     // Fonction pour fermer le modal
     function fermerModal() {
         $("#modalEtape").modal('hide');
     }
+     $(document).on('click', '.btnAfficheRecette', function(){
+       var id = $(this).data('id')
+       $.ajax({
+           url:'/membre/affiche_recette/'+id,
+           type:'GET',
+           datatype:'json',
+           success: function(data){
+               $('#titre').text(data.titre)
+               $('#description').text(data.description)
+               $('#btnEtape').attr('data-id', data.id)
+               $('#btnIngredient').attr('data-id', data.id)
+               $('#photo_profil').attr('src', data.profil)
+               $('#photo_recette').attr('src', data.photo)
+               $('#date').text(data.date)
+              
+               $('#modalAfficheRecette').modal('show')
+           },
+           error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+       })
+    })
+    
 });
 </script>
 </body>

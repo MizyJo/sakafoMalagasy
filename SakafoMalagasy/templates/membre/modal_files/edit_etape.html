@@ -1,4 +1,4 @@
-<div  style="z-index: 2000" class="modal fade" id="modalEditEtape" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div  class="modal fade" id="modalEditEtape" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,7 +7,12 @@
       </div>
       <div class="modal-body">
           <h4 class="text-center">Modifier l'étape</h4>
-       
+          <form  id="formEditEtape">
+              <input type="hidden" id="id_etape">
+              <input type="number" id="numero_etape" name="numero" class="form-control m-2" required>
+              <input type="text" name="description" id="description_etape" required class="form-control m-2">
+              <button type="submit" class="btn btn-primary m-2">Modifier l'étape</button>
+          </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

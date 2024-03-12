@@ -1,4 +1,4 @@
-<div  style="z-index: 2000" class="modal fade" id="modalDeleteEtape" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div  class="modal fade" id="modalDeleteEtape" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -6,8 +6,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
-        <p>Etes vous sur de supprimer cette etape??</p>
-          <button class="btn btn-danger">Confirmer</button>
+        <form action="" id="formDeleteEtape">
+              <input type="hidden" id="id_delete_etape">
+               <p>Etes vous sur de vouloir supprimer cette étape?</p>
+          <button type="submit" class="btn btn-danger btn-sm m-3">Confirmer</button>
+          </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

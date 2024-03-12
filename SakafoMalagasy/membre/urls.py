@@ -1,7 +1,9 @@
 
 from django.urls import path
-from membre.views import index, logouts, ajout_recette, add_recette, profile, add_profil, recette, add_favoris, get_etape, remove_favoris, \
-    get_ingredient, get_recette, add_etape, add_ingredient
+from membre.views import index, logouts, ajout_recette, add_recette, profile, add_profil, recette, add_favoris, \
+    get_etape, remove_favoris, \
+    get_ingredient, get_recette, add_etape, add_ingredient, get_etape_by_id, get_ingredient_by_id, edit_etape, \
+    edit_ingredient, delete_recette, delete_etape, delete_ingredient, edit_recette, affiche_recette
 
 urlpatterns = [
 
@@ -20,5 +22,14 @@ urlpatterns = [
     path('add_etape', add_etape, name="add_etape"),
     path('remove_favoris/<int:recette_id>/', remove_favoris, name='remove_favoris'),
     path('add_ingredient', add_ingredient, name="add_ingredient"),
+    path('get_etape_by_id/<int:etape_id>', get_etape_by_id, name="get_etape_by_id"),
+    path('get_ingredient_by_id/<int:ingredient_id>', get_ingredient_by_id, name=""),
+    path('edit_etape', edit_etape, name="edit_etape"),
+    path('edit_ingredient', edit_ingredient, name="edit_ingredient"),
+    path('edit_recette', edit_recette, name="edit_recette"),
+    path('delete_recette', delete_recette, name="delete_recette"),
+    path('delete_etape', delete_etape, name="delete_etape"),
+    path('delete_ingredient', delete_ingredient, name="delete_ingredient"),
+    path('affiche_recette/<int:recette_id>', affiche_recette, name='affiche_recette'),
 
 ]
