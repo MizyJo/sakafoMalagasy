@@ -1,0 +1,69 @@
+{% extends 'membre/baseMembre.html' %}
+{% block content %}
+    <div class="container">
+        <br><br><br>
+    {% if recette %}
+        <div class="row">
+        {% for donne in recette %}
+            <div class="col-4">
+               <div class="card m-3">
+            <div class="header">
+                <h3 class="text-center">{{ donne.recette.titre }}</h3>
+                <p class="text-center">
+                    {{ donne.recette.description }}
+                </p>
+            </div>
+            <div class="card-body">
+                <ul>
+                        {% for etape in donne.recette.etape_set.all %}
+                            <li>
+                             <input type="checkbox" id="etape1" class="etapeCheckbox">
+                            <label for="etape1">Étape {{ etape.numero }} : {{ etape.description }}</label>
+                            </li>
+                        {% endfor %}
+                </ul>
+            
+                <button class="btn btn-primary btn-sm bouton " disabled>Recette éfféctué</button>   
+            </div>
+            </div>
+            </div>
+
+        {% endfor %}
+        </div>
+    {% else %}
+    {% endif %}
+    </div>
+
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Fonction asynchrone pour vérifier l'état des cases à cocher
+    async function verifierCasesCoches() {
+        var card = this.closest('.card');
+        var casesACocher = card.querySelectorAll('.etapeCheckbox');
+        var bouton = card.querySelector('.bouton');
+
+        // Fonction pour vérifier si toutes les cases à cocher sont cochées
+        function sontToutesCoches() {
+            return Array.from(casesACocher).every(function(caseACocher) {
+                return caseACocher.checked;
+            });
+        }
+
+        // Attendez que le thread principal soit disponible
+        await null;
+
+        // Activez ou désactivez le bouton en fonction de l'état des cases à cocher
+        bouton.disabled = !sontToutesCoches();
+    }
+
+    // Ajoutez un gestionnaire d'événements de changement (change) à chaque case à cocher
+    var etapesCheckbox = document.querySelectorAll('.etapeCheckbox');
+    etapesCheckbox.forEach(function(etapeCheckbox) {
+        etapeCheckbox.addEventListener('change', verifierCasesCoches);
+    });
+});
+
+    </script>
+{% endblock %}

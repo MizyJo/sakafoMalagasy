@@ -3,7 +3,8 @@ from django.urls import path
 from membre.views import index, logouts, ajout_recette, add_recette, profile, add_profil, recette, add_favoris, \
     get_etape, remove_favoris, \
     get_ingredient, get_recette, add_etape, add_ingredient, get_etape_by_id, get_ingredient_by_id, edit_etape, \
-    edit_ingredient, delete_recette, delete_etape, delete_ingredient, edit_recette, affiche_recette
+    edit_ingredient, delete_recette, delete_etape, delete_ingredient, edit_recette, affiche_recette, recette_a_faire, \
+    liste_raf
 
 urlpatterns = [
 
@@ -31,5 +32,7 @@ urlpatterns = [
     path('delete_etape', delete_etape, name="delete_etape"),
     path('delete_ingredient', delete_ingredient, name="delete_ingredient"),
     path('affiche_recette/<int:recette_id>', affiche_recette, name='affiche_recette'),
+    path('recette_a_faire/<int:recette_id>', recette_a_faire, name='recette_a_faire'),
+    path('recette_a_faire', liste_raf, name='recette_a_faire'),
 
 ]

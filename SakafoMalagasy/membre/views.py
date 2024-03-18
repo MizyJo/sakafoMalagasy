@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from membre.models import Recette, Photo, Etape, Ingredient,  Favoris
+from membre.models import Recette, Photo, Etape, Ingredient, Favoris, Recette_a_faire
 
 
 # Create your views here.
@@ -348,5 +348,18 @@ def affiche_recette(request, recette_id):
         return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 
 
+def recette_a_faire(request, recette_id):
+    recette = Recette.objects.get(pk=recette_id)
+    if Recette_a_faire.objects.filter(recette_id=recette_id, user_id=request.user.id).exists():
+       return render(request, "membre/index.html", {'recette': Recette.objects.all(), 'active_page': 'explorer', 'error_message': "Cette recette est déja dans votre recette à faire"})
+    else:
+        Recette_a_faire.objects.create(recette=recette, user=request.user)
+        recette_a_faire = Recette_a_faire.objects.filter(user=request.user)
+        return render(request, 'membre/recette_a_faire.html',
+                      {'active_page': 'recette_a_faire', 'recette': recette_a_faire, 'success_message': "recette ajouté avec succès"})
 
+
+def liste_raf(request):
+    recette = Recette_a_faire.objects.filter(user_id=request.user.id)
+    return render(request, "membre/recette_a_faire.html", {'recette': recette, 'active_page': 'recette_a_faire'})
 

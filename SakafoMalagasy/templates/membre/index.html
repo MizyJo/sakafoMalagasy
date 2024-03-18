@@ -41,6 +41,7 @@
                         {% csrf_token %}
                         <button class="btn btn-danger btn-sm ouvrirRecetteFavoris" type="submit">Ajouter dans vos favoris</button>
                     </form>
+                         <a href="/membre/recette_a_faire/{{ donne.id }}" class="btn btn-info btn-sm">Appliquer cette recette</a>
                 </div>
                 </div>
                
