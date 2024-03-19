@@ -23,7 +23,7 @@
                         {% endfor %}
                 </ul>
             
-                <button class="btn btn-primary btn-sm bouton " disabled>Recette éfféctué</button>   
+                <a class="btn btn-primary btn-sm bouton disabled" href="/membre/recette_effectue/{{ donne.recette.id }}" >Recette éfféctué</a>   
             </div>
             </div>
             </div>
@@ -31,18 +31,19 @@
         {% endfor %}
         </div>
     {% else %}
+        <h3 class="text-white text-center m-5 p-5">Pas de recette a faire en ce momment</h3>
     {% endif %}
     </div>
 
 
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
     // Fonction asynchrone pour vérifier l'état des cases à cocher
     async function verifierCasesCoches() {
         var card = this.closest('.card');
         var casesACocher = card.querySelectorAll('.etapeCheckbox');
-        var bouton = card.querySelector('.bouton');
+        var lien = card.querySelector('.bouton');
 
         // Fonction pour vérifier si toutes les cases à cocher sont cochées
         function sontToutesCoches() {
@@ -54,8 +55,12 @@
         // Attendez que le thread principal soit disponible
         await null;
 
-        // Activez ou désactivez le bouton en fonction de l'état des cases à cocher
-        bouton.disabled = !sontToutesCoches();
+        // Ajoutez ou supprimez la classe 'disabled' en fonction de l'état des cases à cocher
+        if (sontToutesCoches()) {
+            lien.classList.remove('disabled');
+        } else {
+            lien.classList.add('disabled');
+        }
     }
 
     // Ajoutez un gestionnaire d'événements de changement (change) à chaque case à cocher
@@ -64,6 +69,5 @@
         etapeCheckbox.addEventListener('change', verifierCasesCoches);
     });
 });
-
     </script>
 {% endblock %}

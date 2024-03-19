@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from membre.models import Recette, Photo, Etape, Ingredient, Favoris, Recette_a_faire
+from membre.models import Recette, Photo, Etape, Ingredient, Favoris, Recette_a_faire, Recette_effectue
 
 
 # Create your views here.
@@ -363,3 +363,23 @@ def liste_raf(request):
     recette = Recette_a_faire.objects.filter(user_id=request.user.id)
     return render(request, "membre/recette_a_faire.html", {'recette': recette, 'active_page': 'recette_a_faire'})
 
+
+def recette_effectue(request, recette_id):
+    if request.user.is_authenticated:
+      raf = Recette_a_faire.objects.filter(recette_id=recette_id)
+      recette = Recette.objects.get(pk=recette_id)
+      user = request.user
+      Recette_effectue.objects.create(recette=recette, user=user)
+      raf.delete()
+      recette_effectue = Recette_effectue.objects.filter(user=request.user)
+      return render(request, "membre/recette_effectue.html", {'active_page': "recette_effectue", 'recette': recette_effectue, 'success_message': "Recette appliqué :)"})
+    else:
+        return redirect('/')
+
+
+def liste_re(request):
+    if request.user.is_authenticated:
+        re = Recette_effectue.objects.filter(user=request.user)
+        return render(request, "membre/recette_effectue.html", {'active_page': 'recette_effectue', 'recette': re})
+    else:
+        return redirect('/')

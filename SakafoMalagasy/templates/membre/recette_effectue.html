@@ -1,0 +1,30 @@
+{% extends "membre/baseMembre.html" %}
+{% block content %}
+    <div class="container">
+        <br><br><br>
+    {% if recette %}
+        <div class="row">
+        {% for donne in recette %}
+            <div class="col-4">
+                    <div class="card mt-5 text-white smaller-card" style="border: none;box-shadow: 1px 5px 3px -5px rgba(0, 0, 0, 0.5), -1px -5px 3px -5px rgba(0, 0, 0, 0.5);border-radius:20px;background: #333333">
+            <div class="card-header text-white" style="border:none;border-radius: 20px">
+                <div class="d-flex"><p style="width:85%"><img src="{{ donne.recette.auteur.profile.image.url }}" alt="" class="bg-dark me-4 justify-content-center align-items-center" height="50px" width="50px" style="border-radius:50%">{{ donne.recette.auteur.username }}</p><div>{{ donne.recette.date_creation }}</div></div>
+            </div>
+            <div class="card-body">
+                <img src="{{ donne.recette.photo.fichier.url }}" alt="" class="bg-dark"  style="height:210px;width:100%;margin-top:-15px;margin-right:-5px;text-align: center; padding: 10px;">
+                <h3 class="m-2">{{ donne.recette.titre }}</h3>
+                <p>{{ donne.recette.description }}</p>
+                <div class="text-center">
+                     <div class="btn-group">
+                    <button class="btn btn-warning btn-sm ouvrirModalEtape" data-id={{ donne.recette.id }}>Afficher les étapes</button><button  id="ouvrirModalIngredient" class="btn btn-dark btn-sm ouvrirModalIngredient" data-id={{ donne.recette.id }}>Afficher les ingrédients</button>
+                </div>
+                </div>
+               
+            </div>
+        </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

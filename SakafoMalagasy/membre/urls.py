@@ -4,7 +4,7 @@ from membre.views import index, logouts, ajout_recette, add_recette, profile, ad
     get_etape, remove_favoris, \
     get_ingredient, get_recette, add_etape, add_ingredient, get_etape_by_id, get_ingredient_by_id, edit_etape, \
     edit_ingredient, delete_recette, delete_etape, delete_ingredient, edit_recette, affiche_recette, recette_a_faire, \
-    liste_raf
+    liste_raf, recette_effectue, liste_re
 
 urlpatterns = [
 
@@ -34,5 +34,7 @@ urlpatterns = [
     path('affiche_recette/<int:recette_id>', affiche_recette, name='affiche_recette'),
     path('recette_a_faire/<int:recette_id>', recette_a_faire, name='recette_a_faire'),
     path('recette_a_faire', liste_raf, name='recette_a_faire'),
+    path('recette_effectue/<int:recette_id>', recette_effectue, name='recette_effectue'),
+    path('recette_effectue', liste_re, name="recette_effectue"),
 
 ]

@@ -73,3 +73,6 @@ class Recette_a_faire(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
+class Recette_effectue(models.Model):
+    recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
