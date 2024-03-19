@@ -350,8 +350,8 @@ def affiche_recette(request, recette_id):
 
 def recette_a_faire(request, recette_id):
     recette = Recette.objects.get(pk=recette_id)
-    if Recette_a_faire.objects.filter(recette_id=recette_id, user_id=request.user.id).exists():
-       return render(request, "membre/index.html", {'recette': Recette.objects.all(), 'active_page': 'explorer', 'error_message': "Cette recette est déja dans votre recette à faire"})
+    if Recette_a_faire.objects.filter(recette_id=recette_id, user_id=request.user.id).exists() or Recette_effectue.objects.filter(recette_id=recette_id, user_id=request.user.id).exists():
+       return render(request, "membre/index.html", {'recette': Recette.objects.all(), 'active_page': 'explorer', 'error_message': "Cette recette est déja dans votre recette à faire ou dans votre recette appliqué"})
     else:
         Recette_a_faire.objects.create(recette=recette, user=request.user)
         recette_a_faire = Recette_a_faire.objects.filter(user=request.user)

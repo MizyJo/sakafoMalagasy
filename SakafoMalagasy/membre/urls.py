@@ -36,5 +36,4 @@ urlpatterns = [
     path('recette_a_faire', liste_raf, name='recette_a_faire'),
     path('recette_effectue/<int:recette_id>', recette_effectue, name='recette_effectue'),
     path('recette_effectue', liste_re, name="recette_effectue"),
-
 ]

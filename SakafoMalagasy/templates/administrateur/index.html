@@ -1,0 +1,43 @@
+{% extends 'administrateur/base.html' %}
+{% block content %}
+    <div class="card">
+    <div class="card-body">
+        <h3 class="text-center text-warning">Listes de tous les utilisateurs : </h3>
+        {% if users %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>date inscription</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for donne in users %}
+                <tr>
+                    <td>{{ donne.first_name }}</td>
+                    <td>{{ donne.last_name }}</td>
+                    <td>{{ donne.username }}</td>
+                    <td>{{ donne.email }}</td>
+                    <td>{{ donne.date_joined }}</td>
+                    <td>Activé</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-danger btn-sm">Désactivé</button>
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    </div>
+{% endblock %}

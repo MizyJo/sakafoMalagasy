@@ -13,7 +13,7 @@
                         <form action="">
                             <div class="form-group mb-3 d-flex container-fluid">
                                 <input type="search" class="form-control mx-4 bg-dark-subtle" name="search" placeholder="Recherche.....">
-                                <button type="submit" class="btn btn-sm btn-outline-info">Rechercher</button>
+                                <button type="submit" class="btn btn-sm btn-outline-info"><i class="bi bi-search p-3"></i></button>
                             </div>
                         </form>
                     </div>
@@ -36,12 +36,12 @@
                 <p>{{ donne.description }}</p>
                 <div class="text-center">
                      <div class="btn-group">
-                    <button class="btn btn-warning btn-sm ouvrirModalEtape" data-id={{ donne.id }}>Afficher les étapes</button><button  id="ouvrirModalIngredient" class="btn btn-dark btn-sm ouvrirModalIngredient" data-id={{ donne.id }}>Afficher les ingrédients</button>
+                    <button class="btn btn-warning btn-sm ouvrirModalEtape" data-id={{ donne.id }}><i class="bi bi-list-check pe-2"></i>Etapes</button><button  id="ouvrirModalIngredient" class="btn btn-dark btn-sm ouvrirModalIngredient" data-id={{ donne.id }}><i class="bi bi-basket2 pe-2"></i>Ingrédients</button>
                     <form action="{% url 'add_favoris' recette_id=donne.id %}" class="row text-white" method="post">
                         {% csrf_token %}
-                        <button class="btn btn-danger btn-sm ouvrirRecetteFavoris" type="submit">Ajouter dans vos favoris</button>
+                        <button class="btn btn-danger btn-sm ouvrirRecetteFavoris" type="submit"><i class="bi bi-heart p-3"></i></button>
                     </form>
-                         <a href="/membre/recette_a_faire/{{ donne.id }}" class="btn btn-info btn-sm">Appliquer cette recette</a>
+                         <a href="/membre/recette_a_faire/{{ donne.id }}" class="btn btn-info btn-sm position-relative"><i class="bi bi-list-task pe-2"> Appliquer</i></a>
                 </div>
                 </div>
                

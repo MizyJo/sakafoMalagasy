@@ -23,5 +23,6 @@ urlpatterns = [
     path('', index, name="index"),
     path('auth/', include('authentification.urls')),
     path('membre/', include('membre.urls')),
+    path('administrateur/', include('administrateur.urls')),
 
 ]
