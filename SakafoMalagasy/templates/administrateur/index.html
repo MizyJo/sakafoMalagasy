@@ -25,11 +25,17 @@
                     <td>{{ donne.username }}</td>
                     <td>{{ donne.email }}</td>
                     <td>{{ donne.date_joined }}</td>
-                    <td>Activé</td>
+                    <td>
+                        {% if donne.is_active == True %}
+                        <i class="bi bi-person-check text-success"></i>
+                        {% else %}
+                            <i class="bi bi-person-x text-danger"></i>
+                        {% endif %}
+                    </td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn btn-outline-danger btn-sm">Désactivé</button>
-                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                            <a href="/administrateur/desactive_user/{{ donne.id }}" class="btn btn-outline-{% if donne.is_active == False %}success{% else %}danger{% endif %} btn-sm">{% if donne.is_active %}Désactivé{% else %}Activé{% endif %}</a>
+                            <button type="button" data-id="{{ donne.id }}" class="btn btn-danger btn-sm suppre"><i class="bi bi-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -40,4 +46,7 @@
         {% endif %}
     </div>
     </div>
+    <script>
+   
+    </script>
 {% endblock %}

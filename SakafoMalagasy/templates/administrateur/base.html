@@ -33,20 +33,20 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link {% if active_page == "users"%}active{% endif %}">
+                    <a href="/administrateur/dashboard" class="sidebar-link {% if active_page == "users"%}active{% endif %}">
                         <i class="lni lni-user"></i>
                         <span>Utilisateurs</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link {% if active_page == "recettes"%}active{% endif %}">
+                    <a href="/administrateur/liste_recette" class="sidebar-link {% if active_page == "liste_recette"%}active{% endif %}">
                         <i class="lni lni-agenda"></i>
                         <span>Liste des recettes</span>
                     </a>
                 </li>
                 
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link {% if active_page == "last_login"%}active{% endif %}">
+                    <a href="/administrateur/last_login" class="sidebar-link {% if active_page == "last_login"%}active{% endif %}">
                         <i class="lni lni-user"></i>
                         <span>Derniers utilisateurs connécté</span>
                     </a>
@@ -68,11 +68,22 @@
             </div>
         </div>
     </div>
+    {% include 'administrateur/modal_files/delete_user.html' %}
     <script src="{% static '' %}assets/admin/script.js"></script>
  <script src="{% static '' %}assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="{% static '' %}assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="{% static '' %}assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="{% static 'assets/js/jquery-3.7.1.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function(){
+             $('.suppre').click(function(){
+        var id = $(this).data('id')
+        $('.delete_user').attr('href', "/administrateur/delete_user/"+id)
+        $('#modalDeleteUser').modal('show')
+    })
+        })
+    </script>
 </body>
 
 </html>

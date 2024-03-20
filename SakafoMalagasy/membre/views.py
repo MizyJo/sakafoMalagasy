@@ -18,7 +18,7 @@ def index(request):
 
 def logouts(request):
     logout(request)
-    return redirect('index')
+    return redirect('/')
 
 
 def ajout_recette(request):
