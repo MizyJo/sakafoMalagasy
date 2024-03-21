@@ -457,6 +457,46 @@ $(document).ready(function(){
     })
     
 });
+     $(document).ready(function() {
+    $('#search-input').on('input', function() {
+        var searchQuery = $(this).val().trim(); // Récupérer le terme de recherche
+        if (searchQuery.length > 0) {
+            $.ajax({
+                url: '/membre/search_view',
+                type: 'GET',
+                data: {
+                    'q': searchQuery
+                },
+                success: function(response) {
+                    // Afficher les résultats de recherche
+                    displaySearchResults(response.results);
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        } else {
+            // Effacer les résultats de recherche si la zone de recherche est vide
+            $('#search-results').empty();
+        }
+    });
+});
+
+function displaySearchResults(results) {
+    var searchResultsDiv = $('#search-results');
+    searchResultsDiv.empty(); // Effacer les résultats précédents
+
+    // Construire la liste des résultats de recherche
+    var resultList = $('<ul></ul>');
+    results.forEach(function(result) {
+        var listItem = $('<li></li>').text(result.titre);
+        resultList.append(listItem);
+    });
+
+    // Afficher la liste des résultats de recherche
+    searchResultsDiv.append(resultList);
+}
+
 </script>
 </body>
 

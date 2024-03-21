@@ -383,3 +383,21 @@ def liste_re(request):
         return render(request, "membre/recette_effectue.html", {'active_page': 'recette_effectue', 'recette': re})
     else:
         return redirect('/')
+
+
+def search(request):
+    if request.user.is_authenticated:
+        return render(request, 'membre/recherche.html', {'active_page': 'recherche'})
+
+
+def search_view(request):
+    search_query = request.GET.get('q', '')
+
+
+    # Effectuez votre logique de recherche ici en fonction de la requête
+    if search_query:
+        results = list(Recette.objects.filter(titre__icontains=search_query))
+        print(results)
+        return JsonResponse({'results': results})
+    # Vous pouvez également formater les résultats avant de les renvoyer si nécessaire
+
