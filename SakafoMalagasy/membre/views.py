@@ -340,7 +340,8 @@ def affiche_recette(request, recette_id):
             'description': recette.description,
             'photo': photo,
             'profil': profil,
-            'date': recette.date_creation
+            'date': recette.date_creation,
+            'auteur':recette.auteur.username
         }
 
         return JsonResponse(data)
@@ -390,14 +391,16 @@ def search(request):
         return render(request, 'membre/recherche.html', {'active_page': 'recherche'})
 
 
+from django.core.serializers import serialize
+
+
 def search_view(request):
     search_query = request.GET.get('q', '')
+    results = []
 
-
-    # Effectuez votre logique de recherche ici en fonction de la requête
     if search_query:
-        results = list(Recette.objects.filter(titre__icontains=search_query))
-        print(results)
-        return JsonResponse({'results': results})
-    # Vous pouvez également formater les résultats avant de les renvoyer si nécessaire
+        # Effectuez votre logique de recherche ici en fonction de la requête
+        # Utilisez icontains pour rechercher le titre de la recette
+        results = list(Recette.objects.filter(titre__icontains=search_query).values('id', 'titre', 'description'))
 
+    return JsonResponse({'results': results})

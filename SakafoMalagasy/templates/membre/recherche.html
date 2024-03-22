@@ -1,13 +1,24 @@
 {% extends 'membre/baseMembre.html' %}
 {% block content %}
+    <style>
+    @keyframes changeBorderRadius {
+    0% { border-radius: 10% 10% 10% 10% / 3% 42% 0% 42%  ; }
+    100% { border-radius: 10% 10% 10% 10% / 42% 0% 42% 0%  ; }
+}
+    .search-box {
+        border:none;
+        color:white;
+    animation: changeBorderRadius 4s infinite alternate;
+}
+    </style>
     <div class="container">
         <br><br><br>
     
     <form id="search-form">
-    <input type="text" id="search-input" class="form-control" placeholder="Rechercher une recette...">
+          <input type="search" id="search-input" class="form-control p-4 search-box" placeholder="Rechercher une recette..." style="max-width:500px;margin:10px auto;background: rgb(187,185,173);background: linear-gradient(153deg, rgba(187,185,173,1) 0%, rgba(138,235,255,1) 100%);">
     </form>
 
-<div id="search-results"></div>
+<div id="search-results" style="margin-bottom: 300px"></div>
     </div>
     
     

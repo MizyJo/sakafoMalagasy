@@ -8,7 +8,7 @@
       <div class="modal-body">
        <div class="card mt-5 text-white smaller-card" style="border: none;box-shadow: 1px 5px 3px -5px rgba(0, 0, 0, 0.5), -1px -5px 3px -5px rgba(0, 0, 0, 0.5);border-radius:20px;background: #333333">
             <div class="card-header text-white" style="border:none;border-radius: 20px">
-                <div class="d-flex"><p style="width:85%"><img id="photo_profil" src="" alt="" class="bg-dark me-4 justify-content-center align-items-center" height="50px" width="50px" style="border-radius:50%">{{ request.user.username }}</p><p id="date"></p></div>
+                <div class="d-flex"><p style="width:85%" ><img id="photo_profil" src="" alt="" class="bg-dark me-4 justify-content-center align-items-center" height="50px" width="50px" style="border-radius:50%"> <span id="auteur"></span> </p><p id="date"></p></div>
             </div>
             <div class="card-body">
                 <img id="photo_recette" src="" alt="" class="bg-dark"  style="height:210px;width:100%;margin-top:-15px;margin-right:-5px;text-align: center; padding: 10px;">
@@ -16,7 +16,7 @@
                 <p id="description"></p>
                 <div class="text-center">
                      <div class="btn-group">
-                    <button class="btn btn-warning btn-sm ouvrirModalEtape" id="btnEtape" disabled>Afficher les étapes</button><button  id="btnIngredient" class="btn btn-dark btn-sm ouvrirModalIngredient" data-id="id_recette" disabled>Afficher les ingrédients</button>
+                    <button class="btn btn-warning btn-sm ouvrirModalEtape btnEtape" id="btnEtape" disabled>Afficher les étapes</button><button  id="btnIngredient" class="btn btn-dark btn-sm ouvrirModalIngredient btnEtape" data-id="id_recette" disabled>Afficher les ingrédients</button>
                 </div>
                 </div>
                

@@ -362,16 +362,17 @@ $(document).ready(function(){
             type: 'GET',
             dataType: 'json',
             success: function(data){
-                // Afficher les ingrédients dans le modal
-               // $('.nomRecette').val(data.nom)
-                var modalBody = $('#corpBodyEtape');
-                modalBody.empty();
-            data.forEach(function(etape) {
-                modalBody.append('<tr><td>' + etape.numero + '</td><td>' + etape.description + '</td></tr>');
-            });
-                // Ouvrir le modal
-                $('#modalEtape').modal('show');
-            },
+    // Vider d'abord tous les éléments du corps du modal
+    $('#corpBodyEtape').empty();
+
+    // Remplir le corps du modal avec les nouvelles données
+    data.forEach(function(etape) {
+        $('#corpBodyEtape').append('<tr><td>' + etape.numero + '</td><td>' + etape.description + '</td></tr>');
+    });
+
+    // Ouvrir le modal
+    $('#modalEtape').modal('show');
+},
             error: function(xhr, status, error) {
                 // Gérer les erreurs si nécessaire
                 console.error(xhr.responseText);
@@ -439,17 +440,24 @@ $(document).ready(function(){
            url:'/membre/affiche_recette/'+id,
            type:'GET',
            datatype:'json',
-           success: function(data){
-               $('#titre').text(data.titre)
-               $('#description').text(data.description)
-               $('#btnEtape').attr('data-id', data.id)
-               $('#btnIngredient').attr('data-id', data.id)
-               $('#photo_profil').attr('src', data.profil)
-               $('#photo_recette').attr('src', data.photo)
-               $('#date').text(data.date)
-              
-               $('#modalAfficheRecette').modal('show')
-           },
+          success: function(data){
+    // Vider d'abord tous les éléments cibles
+    $('#titre, #description, #date, #auteur').empty();
+    $('.btnEtape, .btnIngredient').removeAttr('data-id');
+    $('#photo_profil, #photo_recette').removeAttr('src');
+
+    // Remplir les éléments avec les nouvelles données
+    $('#titre').text(data.titre);
+    $('#description').text(data.description);
+    $('.btnEtape').attr('data-id', data.id);
+    $('.btnIngredient').attr('data-id', data.id);
+    $('#photo_profil').attr('src', data.profil);
+    $('#photo_recette').attr('src', data.photo);
+    $('#date').text(data.date);
+    $('#auteur').text(data.auteur);
+    // Afficher le modal
+    $('#modalAfficheRecette').modal('show');
+},
            error: function(xhr, status, error) {
             console.error(xhr.responseText);
         }
@@ -481,20 +489,44 @@ $(document).ready(function(){
         }
     });
 });
-
+    
 function displaySearchResults(results) {
-    var searchResultsDiv = $('#search-results');
-    searchResultsDiv.empty(); // Effacer les résultats précédents
+    // Vérifiez d'abord si les résultats sont un tableau
+    if (Array.isArray(results)) {
+        // Traitez les résultats ici
+        var searchResultsDiv = $('#search-results');
+        searchResultsDiv.empty(); 
+        var table = $('<table class="table"></table>');
+        
+        // Ajoutez l'en-tête du tableau
+        var tableHeader = $('<thead><tr><th>ID</th><th>Titre</th><th>Description</th><th>Action</th></tr></thead>');
+        table.append(tableHeader);
 
-    // Construire la liste des résultats de recherche
-    var resultList = $('<ul></ul>');
-    results.forEach(function(result) {
-        var listItem = $('<li></li>').text(result.titre);
-        resultList.append(listItem);
-    });
+        // Ajoutez les lignes du tableau pour chaque résultat
+        var tableBody = $('<tbody></tbody>');
+        results.forEach(function(result) {
+            // Vérifiez si les résultats ont les propriétés nécessaires
+            if ('id' in result && 'titre' in result && 'description' in result) {
+                var row = $('<tr></tr>');
+                var idCell = $('<td></td>').text(result.id);
+                var titreCell = $('<td></td>').text(result.titre);
+                var descriptionCell = $('<td></td>').text(result.description);
+                var buttonCell = $('<td></td>').append('<button type="button" data-id="'+result.id+'" class="btn btn-dark btn-sm btnAfficheRecette"><i class="bi bi-eye"></i></button>');
+                row.append(idCell, titreCell, descriptionCell, buttonCell);
+                tableBody.append(row);
+            }
+        });
 
-    // Afficher la liste des résultats de recherche
-    searchResultsDiv.append(resultList);
+        // Ajoutez le corps du tableau à la table
+        table.append(tableBody);
+
+        // Ajoutez le tableau à la div de résultats de recherche
+        searchResultsDiv.append(table);
+    } else {
+        // Traitez les résultats autrement s'ils ne sont pas un tableau
+        // Par exemple, afficher un message d'erreur
+        console.error("Les résultats ne sont pas sous forme de tableau.");
+    }
 }
 
 </script>
